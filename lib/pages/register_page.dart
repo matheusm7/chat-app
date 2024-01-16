@@ -1,6 +1,6 @@
-import 'package:chat_app/auth/auth_service.dart';
 import 'package:chat_app/components/my_button.dart';
 import 'package:chat_app/components/my_textfield.dart';
+import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -21,7 +21,7 @@ class RegisterPage extends StatelessWidget {
 
     if (_pwcontroller.text == _confirmPwController.text) {
       try {
-        auth.signInWithEmailPassword(
+        auth.signUpWithEmailPassword(
           _emailcontroller.text,
           _pwcontroller.text,
         );
@@ -32,6 +32,15 @@ class RegisterPage extends StatelessWidget {
                   title: Text(e.toString()),
                 ));
       }
+    }
+    // password dont match -> tell user to fix
+
+    else {
+      showDialog(
+          context: context,
+          builder: (context) => const AlertDialog(
+                title: Text("Password doesnt match"),
+              ));
     }
   }
 
@@ -74,7 +83,7 @@ class RegisterPage extends StatelessWidget {
             obscureText: true,
             controller: _pwcontroller,
           ),
-          const SizedBox(height: 25),
+          const SizedBox(height: 10),
 
           // confirm pw password
           MyTextField(
@@ -96,7 +105,7 @@ class RegisterPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text('Já possui uma conta? ', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
-              GestureDetector(onTap: ontap, child: Text('Fazer login', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary))),
+              GestureDetector(onTap: ontap, child: Text('Fazer login.', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary))),
             ],
           )
         ],
